@@ -33,14 +33,7 @@ const Player = ({ source }: IPlayerProps) => {
     };
   }, [source, hlsInstance, setVideo, videoElement]);
 
-  return (
-    <video
-      className={s.player}
-      controls
-      ref={videoRef}
-      style={{ width: '100%', height: 'auto' }}
-    />
-  );
+  return <video className={s.player} controls ref={videoRef} style={{ width: '100%', height: 'auto' }} />;
 };
 
 export { Player };

@@ -1,14 +1,13 @@
-import { createEvent, createStore } from 'effector';
+import { createStore, sample } from 'effector';
 import Hls from 'hls.js';
+import { and } from 'patronum';
+
+import { destroyHls, setDuration, setHlsInstance, setVideoElement } from './events';
 
 interface HLSState {
   hlsInstance: Hls | null;
   videoElement: HTMLVideoElement | null;
 }
-
-const setHlsInstance = createEvent<Hls | null>();
-const setVideoElement = createEvent<HTMLVideoElement | null>();
-const destroyHls = createEvent<void>();
 
 const $hlsStore = createStore<HLSState>({
   hlsInstance: null,
