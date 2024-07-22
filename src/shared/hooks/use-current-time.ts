@@ -1,7 +1,9 @@
-import { useUnit } from 'effector-react';
 import React from 'react';
-import { $videoElement } from '../../lib/provider/model';
+
+import { useUnit } from 'effector-react';
+
 import { setCurrentTime } from '../../lib/provider/events';
+import { $videoElement } from '../../lib/provider/model';
 
 const useCurrentTime = () => {
   const { videoElement } = useUnit($videoElement);
