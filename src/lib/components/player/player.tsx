@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useUnit } from 'effector-react';
 
-import { $hlsStore, setVideoElement } from '../../provider/model';
+import { $hlsInstance, $videoElement, setVideoElement } from '../../provider/model';
 import s from './player.module.scss';
 
 interface IPlayerProps {
@@ -12,7 +12,8 @@ interface IPlayerProps {
 const Player = ({ source }: IPlayerProps) => {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
-  const { hlsInstance, videoElement } = useUnit($hlsStore);
+  const { hlsInstance } = useUnit($hlsInstance);
+  const { videoElement } = useUnit($videoElement);
   const [setVideo] = useUnit([setVideoElement]);
 
   React.useEffect(() => {

@@ -1,21 +1,24 @@
-import { createStore, sample } from 'effector';
+import { createStore } from 'effector';
 import Hls from 'hls.js';
-import { and } from 'patronum';
 
-import { destroyHls, setDuration, setHlsInstance, setVideoElement } from './events';
+import { destroyHls, setHlsInstance, setVideoElement } from './events';
 
-interface HLSState {
+interface IHlsInstance {
   hlsInstance: Hls | null;
+}
+
+interface IVideoElement {
   videoElement: HTMLVideoElement | null;
 }
 
-const $hlsStore = createStore<HLSState>({
-  hlsInstance: null,
-  videoElement: null,
-})
+const $hlsInstance = createStore<IHlsInstance>({ hlsInstance: null })
   .on(setHlsInstance, (state, hlsInstance) => ({ ...state, hlsInstance }))
-  .on(setVideoElement, (state, videoElement) => ({ ...state, videoElement }))
   .on(destroyHls, (state) => state.hlsInstance?.destroy())
   .reset(destroyHls);
 
-export { $hlsStore, setHlsInstance, setVideoElement, destroyHls };
+const $videoElement = createStore<IVideoElement>({ videoElement: null }).on(setVideoElement, (state, videoElement) => ({
+  ...state,
+  videoElement,
+}));
+
+export { $hlsInstance, $videoElement, setHlsInstance, setVideoElement, destroyHls };
