@@ -1,17 +1,18 @@
 .progress_bar_wrapper {
     position: relative;
-    width: 100%;
-    height: 10px;
+    max-width: 109%;
+    height: 8px;
     background-color: #fdfdfd;
-    border-radius: 2px;
+    border-radius: 10px;
 }
 
 .thumb {
     position: absolute;
     top: 0;
     left: 0;
-    width: 10px;
-    height: 10px;
+    transform: translateY(-15%);
+    width: 12px;
+    height: 12px;
     background-color: #337ab7;
     border-radius: 50%;
     cursor: pointer;
@@ -28,14 +29,20 @@
     }
 }
 
-
-
 .progress_bar {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: #ccc;
     border-radius: 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:is_dragging {
+        background-color: #363434;
+    }
 }
 
 .thumb_progress {
@@ -43,7 +50,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #337ab7;
+    background-color: #8cb5da;
     border-radius: 10px;
-    transition: width 0.2s ease-in-out;
+    // transition: width 0.2s ease-in-out;
 }

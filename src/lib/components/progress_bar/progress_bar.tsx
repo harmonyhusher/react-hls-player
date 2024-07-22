@@ -1,5 +1,9 @@
+import React from 'react';
+
+import cn from 'classnames';
 import { useUnit } from 'effector-react';
 
+import { useDragProgressBar } from '../../../shared/hooks/use-drag-progress-bar';
 import {
   $currentTime,
   $dragStartValue,
@@ -29,16 +33,23 @@ export const ProgressBar = () => {
     setCurrentTime,
   ]);
 
+  const progressBarRef = React.useRef<HTMLDivElement>(null);
+
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    setDragging(true);
-    setDragX(event.clientX);
-    setStartDragValue(currentTime);
+    if (progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const newValue = (clickX / progressBarRef.current.offsetWidth) * duration;
+      setDragging(true);
+      setDragX(event.clientX);
+      setStartDragValue(newValue);
+    }
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      const deltaX = event.clientX - dragStartX;
-      const newValue = dragStartValue + (deltaX / event.target.offsetWidth) * 100;
+    if (isDragging && progressBarRef.current) {
+      const newValue = (event.clientX / progressBarRef.current.offsetWidth) * duration;
+      console.log(newValue, currentTime, event.clientX, dragStartX);
       setTime(newValue);
     }
   };
@@ -47,17 +58,26 @@ export const ProgressBar = () => {
     setDragging(false);
   };
 
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const newValue = (clickX / progressBarRef.current.offsetWidth) * duration;
+      setTime(Math.min(Math.max(newValue, 0), duration));
+    }
+  };
+
+  useDragProgressBar({ handleMouseMove, handleMouseUp, dragStartValue, dragStartX, duration, isDragging });
+
   return (
     <div className={s.progress_bar_wrapper}>
-      <div
-        className={s.thumb}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        style={{ left: `${(currentTime / duration) * 100}%` }}
-      />
-      <div className={s.progress_bar}>
-        <div className={s.thumb_progress} style={{ left: `${currentTime}%` }} />
+      <div className={s.progress_bar} onClick={handleClick} ref={progressBarRef}>
+        <div className={s.thumb_progress} style={{ width: `${(currentTime / duration) * 100}%` }} />
+        <div
+          className={cn(s.thumb, { [s.is_dragging]: isDragging })}
+          onMouseDown={handleMouseDown}
+          style={{ left: `${(currentTime / duration) * 100}%` }}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { createStore } from 'effector';
 import Hls from 'hls.js';
 
-import { destroyHls, setHlsInstance, setVideoElement } from './events';
+import { destroyHls, setCurrentTime, setHlsInstance, setVideoElement } from './events';
 
 interface IHlsInstance {
   hlsInstance: Hls | null;
@@ -16,9 +16,15 @@ const $hlsInstance = createStore<IHlsInstance>({ hlsInstance: null })
   .on(destroyHls, (state) => state.hlsInstance?.destroy())
   .reset(destroyHls);
 
-const $videoElement = createStore<IVideoElement>({ videoElement: null }).on(setVideoElement, (state, videoElement) => ({
-  ...state,
-  videoElement,
-}));
+const $videoElement = createStore<IVideoElement>({ videoElement: null })
+  .on(setVideoElement, (_, videoElement) => ({
+    videoElement,
+  }))
+  .on(setCurrentTime, (video, t) => {
+    if (video.videoElement) {
+      video.videoElement.currentTime = t;
+    }
+    return { ...video };
+  });
 
 export { $hlsInstance, $videoElement, setHlsInstance, setVideoElement, destroyHls };
