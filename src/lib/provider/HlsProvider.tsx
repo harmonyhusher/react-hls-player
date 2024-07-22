@@ -3,7 +3,6 @@ import React from 'react';
 import { useUnit } from 'effector-react';
 import Hls from 'hls.js';
 
-import { useCurrentTime } from '../../shared/hooks/use-current-time';
 import { EHLSEvents } from '../../shared/ts/enums';
 import { hlsError, setCurrentTime, setDuration } from './events';
 import { destroyHls, setHlsInstance } from './model';
@@ -16,8 +15,6 @@ export const HlsProvider = ({ children }: IHLSProviderProps) => {
   const [setHls, destroyVideo, setHlsError] = useUnit([setHlsInstance, destroyHls, hlsError]);
 
   const [setVideoDuration] = useUnit([setDuration, setCurrentTime]);
-
-  useCurrentTime();
 
   React.useEffect(() => {
     if (Hls.isSupported()) {

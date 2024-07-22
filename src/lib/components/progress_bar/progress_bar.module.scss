@@ -6,29 +6,6 @@
     border-radius: 10px;
 }
 
-.thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-15%);
-    width: 12px;
-    height: 12px;
-    background-color: #337ab7;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1;
-
-    &:hover {
-        width: 12px;
-        height: 12px;
-        background-color: #23527c;
-    }
-
-    &:active {
-        background-color: #1d4e7a;
-    }
-}
-
 .progress_bar {
     position: relative;
     width: 100%;

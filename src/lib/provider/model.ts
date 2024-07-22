@@ -16,15 +16,8 @@ const $hlsInstance = createStore<IHlsInstance>({ hlsInstance: null })
   .on(destroyHls, (state) => state.hlsInstance?.destroy())
   .reset(destroyHls);
 
-const $videoElement = createStore<IVideoElement>({ videoElement: null })
-  .on(setVideoElement, (_, videoElement) => ({
-    videoElement,
-  }))
-  .on(setCurrentTime, (video, t) => {
-    if (video.videoElement) {
-      video.videoElement.currentTime = t;
-    }
-    return { ...video };
-  });
+const $videoElement = createStore<IVideoElement>({ videoElement: null }).on(setVideoElement, (_, videoElement) => ({
+  videoElement,
+}));
 
 export { $hlsInstance, $videoElement, setHlsInstance, setVideoElement, destroyHls };

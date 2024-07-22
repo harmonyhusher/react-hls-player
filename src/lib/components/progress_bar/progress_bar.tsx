@@ -1,9 +1,9 @@
 import React from 'react';
 
-import cn from 'classnames';
 import { useUnit } from 'effector-react';
 
 import { useDragProgressBar } from '../../../shared/hooks/use-drag-progress-bar';
+import { Thumb } from '../thumb/thumb';
 import {
   $currentTime,
   $dragStartValue,
@@ -73,11 +73,7 @@ export const ProgressBar = () => {
     <div className={s.progress_bar_wrapper}>
       <div className={s.progress_bar} onClick={handleClick} ref={progressBarRef}>
         <div className={s.thumb_progress} style={{ width: `${(currentTime / duration) * 100}%` }} />
-        <div
-          className={cn(s.thumb, { [s.is_dragging]: isDragging })}
-          onMouseDown={handleMouseDown}
-          style={{ left: `${(currentTime / duration) * 100}%` }}
-        />
+        <Thumb handleMouseDown={handleMouseDown} isDragging={isDragging} />
       </div>
     </div>
   );
