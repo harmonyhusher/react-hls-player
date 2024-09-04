@@ -1,0 +1,26 @@
+.thumb {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    transform: translateY(-30%);
+    height: 9px;
+    aspect-ratio: 1/1;
+    background-color: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+    transition: height .1s ease-in-out;
+
+    &:hover {
+        height: 12px;
+        background-color: #ffffff;
+    }
+
+    &:active {
+        height: 7px;
+    }
+
+    .isDragging {
+        transition: 0
+    }
+}

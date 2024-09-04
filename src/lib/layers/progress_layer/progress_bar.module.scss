@@ -1,0 +1,24 @@
+.progress_bar_wrapper {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.progress_bar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.thumb_progress {
+    height: 100%;
+    background-color: #86b2d8;
+    border-radius: 10px;
+}

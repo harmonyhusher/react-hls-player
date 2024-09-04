@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { useUnit } from 'effector-react';
 
 import { $hlsInstance, $videoElement, setVideoElement } from '../../provider/model';
-import { setCurrentTime } from '../progress_bar/model';
-import s from './player.module.scss';
+import { setCurrentTime, setIsPlaying } from '../../provider/events';
+import { $isDragging, setProgress } from '../../layers/progress_layer/model';
 
 interface IPlayerProps {
   source: string;
@@ -15,46 +15,48 @@ const Player = ({ source }: IPlayerProps) => {
 
   const { hlsInstance } = useUnit($hlsInstance);
   const { videoElement } = useUnit($videoElement);
-  const [setVideo] = useUnit([setVideoElement]);
+  useUnit([setVideoElement, setIsPlaying, setProgress]);
 
-  const [setTime] = useUnit([setCurrentTime]);
+  const handleIsPlaying = useCallback((playing: boolean) => {
+    setIsPlaying(playing);
+  }, []);
 
-  const handleTimeUpdate = () => {
-    const currentTime = videoRef.current?.currentTime;
-
-    if (currentTime) {
-      setTime(currentTime);
-    }
+  const handleSetProgress = () => {
+    videoElement && setProgress(videoElement.currentTime);
   };
 
   React.useEffect(() => {
-    if (videoRef.current) {
-      setVideo(videoRef.current);
+    const video = videoRef.current;
+
+    if (video) {
+      setVideoElement(video);
 
       if (hlsInstance) {
-        hlsInstance.attachMedia(videoRef.current);
+        hlsInstance.attachMedia(video);
         hlsInstance.loadSource(source);
       }
+
+      video.addEventListener('play', () => {
+        handleIsPlaying(true);
+      });
+
+      video.addEventListener('pause', () => {
+        handleIsPlaying(false);
+      });
+
+      videoElement?.addEventListener('timeupdate', handleSetProgress);
     }
 
     return () => {
       if (hlsInstance && videoElement) {
         hlsInstance.detachMedia();
         videoRef.current = null;
-        setVideo(null);
+        setVideoElement(null);
       }
     };
-  }, [source, hlsInstance, setVideo, videoElement]);
+  }, [source, hlsInstance, setVideoElement, videoElement]);
 
-  return (
-    <video
-      className={s.player}
-      controls
-      onTimeUpdate={handleTimeUpdate}
-      ref={videoRef}
-      style={{ width: '100%', height: 'auto' }}
-    />
-  );
+  return <video ref={videoRef} style={{ width: '100%' }} />;
 };
 
 export { Player };

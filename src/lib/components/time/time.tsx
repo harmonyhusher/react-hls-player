@@ -1,15 +1,15 @@
 import { useUnit } from 'effector-react';
 
 import { getFormattedTime } from '../../../shared/helpers/get-formatted-time';
-import { $currentTime, $duration } from '../progress_bar/model';
+import { $duration, $progress } from '../../layers/progress_layer/model';
 import s from './time.module.scss';
 
 const Time = () => {
-  const [time, duration] = useUnit([$currentTime, $duration]);
+  const [progress, duration] = useUnit([$progress, $duration]);
 
   return (
     <div className={s.time}>
-      {getFormattedTime(time)} / {getFormattedTime(duration)}
+      {getFormattedTime(progress)} / {getFormattedTime(duration)}
     </div>
   );
 };

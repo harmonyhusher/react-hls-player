@@ -4,7 +4,7 @@ import { useUnit } from 'effector-react';
 import Hls from 'hls.js';
 
 import { EHLSEvents } from '../../shared/ts/enums';
-import { hlsError, setCurrentTime, setDuration } from './events';
+import { hlsError, setDuration } from './events';
 import { destroyHls, setHlsInstance } from './model';
 
 interface IHLSProviderProps {
@@ -14,7 +14,7 @@ interface IHLSProviderProps {
 export const HlsProvider = ({ children }: IHLSProviderProps) => {
   const [setHls, destroyVideo, setHlsError] = useUnit([setHlsInstance, destroyHls, hlsError]);
 
-  const [setVideoDuration] = useUnit([setDuration, setCurrentTime]);
+  const [setVideoDuration] = useUnit([setDuration]);
 
   React.useEffect(() => {
     if (Hls.isSupported()) {

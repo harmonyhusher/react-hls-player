@@ -1,0 +1,25 @@
+.button {
+    max-width: 48px;
+    aspect-ratio: 1/1;
+
+    outline: none;
+    border: none;
+
+    background: transparent;
+
+    box-sizing: border-box;
+    padding: 10px;
+
+    color: white;
+
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active {
+        color: rgb(172, 172, 172);
+        transform: scale(0.94);
+    }
+}

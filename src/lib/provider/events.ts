@@ -11,6 +11,8 @@ const setDuration = createEvent<number>();
 const setLevels = createEvent<Level[]>();
 const setCurrentLevel = createEvent<number>();
 
+const setIsPlaying = createEvent<boolean>();
+
 const manifestParsed = createEvent<ManifestParsedData>();
 const levelSwitched = createEvent<LevelSwitchedData>();
 
@@ -20,6 +22,7 @@ export {
   setHlsInstance,
   levelSwitched,
   hlsError,
+  setIsPlaying,
   setVideoElement,
   destroyHls,
   setCurrentLevel,
