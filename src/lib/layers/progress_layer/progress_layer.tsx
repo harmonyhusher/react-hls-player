@@ -5,8 +5,9 @@ import { useUnit } from 'effector-react';
 import { Thumb } from '../../../shared/components/thumb/thumb';
 import { $currentTime, $duration, $isDragging, $progress, setCurrentTime, setIsDragging, setProgress } from './model';
 import s from './progress_bar.module.scss';
-import { $videoElement } from '../../provider/model';
+import { $videoElement } from '../../provider/hls_provider/model';
 import { useCurrentTime } from './use-current-time';
+import { getTime } from '../../../shared/helpers/get-move-timestamp';
 
 export const ProgressLayer = () => {
   const [duration, currentTime, isDragging, { videoElement }, progress] = useUnit([
@@ -25,23 +26,33 @@ export const ProgressLayer = () => {
     setDragging(true);
 
     if (progressBarRef.current) {
-      const rect = progressBarRef.current.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const timeTo = (x / rect.width) * duration;
+      const timeTo = getTime({ rect: progressBarRef.current.getBoundingClientRect(), event, duration });
 
       setTime(timeTo);
     }
   };
 
-  const handlePointerMove = (event: PointerEvent) => {
+  const handlePointerMove = (event: React.PointerEvent | PointerEvent) => {
     if (!event.buttons || !progressBarRef.current) {
       return;
     }
 
     if (isDragging) {
-      const rect = progressBarRef.current.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const timeTo = (x / rect.width) * duration;
+      const timeTo = getTime({ rect: progressBarRef.current.getBoundingClientRect(), event, duration });
+
+      if (timeTo < 0 || timeTo >= duration) {
+        return;
+      }
+
+      setProgress(timeTo);
+    }
+  };
+
+  const handleUp = (event: React.PointerEvent) => {
+    setDragging(false);
+
+    if (!isDragging && progressBarRef.current) {
+      const timeTo = getTime({ rect: progressBarRef.current.getBoundingClientRect(), event, duration });
 
       if (timeTo < 0 || timeTo >= duration) {
         return;
@@ -51,24 +62,16 @@ export const ProgressLayer = () => {
     }
   };
 
-  const handleUp = () => {
-    setDragging(false);
-  };
-
-  console.log(progress);
-
   useEffect(() => {
     document.addEventListener('pointermove', handlePointerMove);
-    document.addEventListener('pointerup', handleUp);
 
     return () => {
       document.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerup', handleUp);
     };
   }, [isDragging]);
 
   return (
-    <div className={s.progress_bar_wrapper} onPointerDown={handleDown} ref={progressBarRef}>
+    <div className={s.progress_bar_wrapper} onPointerUp={handleUp} onPointerDown={handleDown} ref={progressBarRef}>
       <div className={s.progress_bar}>
         <div
           className={s.thumb_progress}

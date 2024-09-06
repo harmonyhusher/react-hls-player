@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 
 import { useUnit } from 'effector-react';
 
-import { $hlsInstance, $videoElement, setVideoElement } from '../../provider/model';
-import { setCurrentTime, setIsPlaying } from '../../provider/events';
+import { $hlsInstance, $player, $videoElement, setVideoElement } from '../../provider/hls_provider/model';
+import { setCurrentTime, setIsPlayerReady, setIsPlaying } from '../../provider/hls_provider/events';
 import { $isDragging, setProgress } from '../../layers/progress_layer/model';
 
 interface IPlayerProps {
@@ -15,6 +15,7 @@ const Player = ({ source }: IPlayerProps) => {
 
   const { hlsInstance } = useUnit($hlsInstance);
   const { videoElement } = useUnit($videoElement);
+  const [{ isPlayerReady }, setPlayerReady] = useUnit([$player, setIsPlayerReady]);
   useUnit([setVideoElement, setIsPlaying, setProgress]);
 
   const handleIsPlaying = useCallback((playing: boolean) => {
@@ -27,13 +28,17 @@ const Player = ({ source }: IPlayerProps) => {
 
   React.useEffect(() => {
     const video = videoRef.current;
-
+    console.log(hlsInstance, video);
     if (video) {
       setVideoElement(video);
 
       if (hlsInstance) {
-        hlsInstance.attachMedia(video);
         hlsInstance.loadSource(source);
+        hlsInstance.attachMedia(video);
+      }
+
+      if (videoElement && hlsInstance) {
+        setPlayerReady(true);
       }
 
       video.addEventListener('play', () => {
@@ -54,7 +59,11 @@ const Player = ({ source }: IPlayerProps) => {
         setVideoElement(null);
       }
     };
-  }, [source, hlsInstance, setVideoElement, videoElement]);
+  }, [source, hlsInstance, setVideoElement, videoElement, isPlayerReady]);
+  console.log(!$player.getState().isPlayerReady, '!$player.getState().isPlayerReady');
+  if (!$player.getState().isPlayerReady) {
+    return <>Loading</>;
+  }
 
   return <video ref={videoRef} style={{ width: '100%' }} />;
 };

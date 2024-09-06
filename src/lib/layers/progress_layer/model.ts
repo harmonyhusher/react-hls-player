@@ -1,7 +1,7 @@
 import { createEvent, createStore, sample } from 'effector';
 
-import { setCurrentTime, setDuration } from '../../provider/events';
-import { $videoElement } from '../../provider/model';
+import { setCurrentTime, setDuration } from '../../provider/hls_provider/events';
+import { $videoElement } from '../../provider/hls_provider/model';
 
 const $duration = createStore<number>(0);
 const $currentTime = createStore<number>(0);

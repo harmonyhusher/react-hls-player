@@ -3,6 +3,8 @@ import Hls, { ErrorData, Level, LevelSwitchedData, ManifestParsedData } from 'hl
 
 const setHlsInstance = createEvent<Hls | null>();
 const setVideoElement = createEvent<HTMLVideoElement | null>();
+const setIsPlayerReady = createEvent<boolean>();
+
 const destroyHls = createEvent<void>();
 
 const setCurrentTime = createEvent<number>();
@@ -24,6 +26,7 @@ export {
   hlsError,
   setIsPlaying,
   setVideoElement,
+  setIsPlayerReady,
   destroyHls,
   setCurrentLevel,
   setCurrentTime,

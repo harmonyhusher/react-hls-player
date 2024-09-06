@@ -4,7 +4,7 @@ import cs from './control_layer.module.scss';
 import { Button } from '../../../shared/components/button/button';
 import { PlayIcon } from '../../../shared/icons/Play';
 import { useUnit } from 'effector-react';
-import { $player, $videoElement } from '../../provider/model';
+import { $player, $videoElement } from '../../provider/hls_provider/model';
 import { StopIcon } from '../../../shared/icons/Stop';
 import { Seek } from '../../../shared/icons/Seek';
 import { $currentTime, $duration, setCurrentTime } from '../progress_layer/model';

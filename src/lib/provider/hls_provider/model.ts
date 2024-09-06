@@ -1,7 +1,6 @@
 import { createStore } from 'effector';
 import Hls from 'hls.js';
-
-import { destroyHls, setCurrentTime, setHlsInstance, setIsPlaying, setVideoElement } from './events';
+import { setHlsInstance, destroyHls, setVideoElement, setCurrentTime, setIsPlaying, setIsPlayerReady } from './events';
 
 interface IHlsInstance {
   hlsInstance: Hls | null;
@@ -12,6 +11,7 @@ interface IVideoElement {
 }
 
 interface IPlayerState {
+  isPlayerReady: boolean;
   isPlaying: boolean;
 }
 
@@ -31,8 +31,13 @@ const $videoElement = createStore<IVideoElement>({ videoElement: null })
     return { videoElement };
   });
 
-const $player = createStore<IPlayerState>({ isPlaying: false }).on(setIsPlaying, (state, isPlaying) => {
-  return { ...state, isPlaying };
-});
+const $player = createStore<IPlayerState>({ isPlaying: false, isPlayerReady: false })
+  .on(setIsPlaying, (state, isPlaying) => {
+    return { ...state, isPlaying };
+  })
+  .on(setIsPlayerReady, (state, isPlayerReady) => {
+    console.log(isPlayerReady);
+    return { ...state, isPlayerReady };
+  });
 
 export { $hlsInstance, $videoElement, setHlsInstance, setVideoElement, destroyHls, $player };

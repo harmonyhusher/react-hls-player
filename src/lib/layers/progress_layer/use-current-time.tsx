@@ -1,6 +1,6 @@
 import { useUnit } from 'effector-react';
 import { $isDragging, setCurrentTime } from './model';
-import { $player, $videoElement } from '../../provider/model';
+import { $player, $videoElement } from '../../provider/hls_provider/model';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 
 export const useCurrentTime = () => {
