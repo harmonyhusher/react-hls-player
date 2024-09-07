@@ -36,7 +36,6 @@ const $player = createStore<IPlayerState>({ isPlaying: false, isPlayerReady: fal
     return { ...state, isPlaying };
   })
   .on(setIsPlayerReady, (state, isPlayerReady) => {
-    console.log(isPlayerReady);
     return { ...state, isPlayerReady };
   });
 

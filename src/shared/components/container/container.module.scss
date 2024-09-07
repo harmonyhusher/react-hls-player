@@ -1,0 +1,21 @@
+.container {
+    transition: all .1s ease-in-out;
+
+    height: min-content;
+
+    border-radius: 5px;
+    border: none;
+
+    background-color: #818181;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(10px);
+        z-index: -1;
+    }
+}

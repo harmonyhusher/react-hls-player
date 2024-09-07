@@ -14,14 +14,9 @@ interface IHLSProviderProps {
 }
 
 export const HlsProvider = ({ children }: IHLSProviderProps) => {
-  const [setHls, destroyVideo, setHlsError, setPlayerReady] = useUnit([
-    setHlsInstance,
-    destroyHls,
-    hlsError,
-    setIsPlayerReady,
-  ]);
+  const [setHls, destroyVideo, setHlsError] = useUnit([setHlsInstance, destroyHls, hlsError]);
 
-  const [hlsInstance, { isPlayerReady }] = useUnit([$hlsInstance, $player]);
+  const [hlsInstance] = useUnit([$hlsInstance]);
 
   const [setVideoDuration, setQualities] = useUnit([setDuration, setLevels]);
 
@@ -35,10 +30,6 @@ export const HlsProvider = ({ children }: IHLSProviderProps) => {
         console.error(EHLSEvents.HLS_ERROR, data);
         setHlsError(data);
       });
-
-      // hls.on(Hls.Events.MANIFEST_LOADED, (_, data) => {
-      //   setPlayerReady(true);
-      // });
 
       hls.on(Hls.Events.FRAG_BUFFERED, (e, data) => {
         // console.log(e, data, 'FRAG');
@@ -62,7 +53,11 @@ export const HlsProvider = ({ children }: IHLSProviderProps) => {
           }
         }
 
-        setQualities(qualities);
+        console.log(qualities);
+
+        if (getObjectTruthness(qualities)) {
+          setLevels(qualities);
+        }
       });
     }
 

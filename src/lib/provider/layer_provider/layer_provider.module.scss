@@ -6,4 +6,8 @@
     box-sizing: border-box;
     outline: none;
     border: none;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
 }

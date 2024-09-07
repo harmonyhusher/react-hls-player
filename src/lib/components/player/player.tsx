@@ -15,7 +15,7 @@ const Player = ({ source }: IPlayerProps) => {
 
   const { hlsInstance } = useUnit($hlsInstance);
   const { videoElement } = useUnit($videoElement);
-  const [{ isPlayerReady }, setPlayerReady] = useUnit([$player, setIsPlayerReady]);
+  const [setPlayerReady] = useUnit([setIsPlayerReady]);
   useUnit([setVideoElement, setIsPlaying, setProgress]);
 
   const handleIsPlaying = useCallback((playing: boolean) => {
@@ -28,17 +28,13 @@ const Player = ({ source }: IPlayerProps) => {
 
   React.useEffect(() => {
     const video = videoRef.current;
-    console.log(hlsInstance, video);
+
     if (video) {
       setVideoElement(video);
 
       if (hlsInstance) {
         hlsInstance.loadSource(source);
         hlsInstance.attachMedia(video);
-      }
-
-      if (videoElement && hlsInstance) {
-        setPlayerReady(true);
       }
 
       video.addEventListener('play', () => {
@@ -59,11 +55,13 @@ const Player = ({ source }: IPlayerProps) => {
         setVideoElement(null);
       }
     };
-  }, [source, hlsInstance, setVideoElement, videoElement, isPlayerReady]);
-  console.log(!$player.getState().isPlayerReady, '!$player.getState().isPlayerReady');
-  if (!$player.getState().isPlayerReady) {
-    return <>Loading</>;
-  }
+  }, [source, hlsInstance, setVideoElement, videoElement]);
+
+  React.useEffect(() => {
+    if (videoRef.current && hlsInstance) {
+      setPlayerReady(true);
+    }
+  }, [hlsInstance]);
 
   return <video ref={videoRef} style={{ width: '100%' }} />;
 };

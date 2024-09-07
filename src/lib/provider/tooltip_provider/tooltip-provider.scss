@@ -1,0 +1,36 @@
+#tooltip_provider {
+    position: relative !important;
+    width: min-content;
+    height: inherit;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.tooltip_container {
+    position: absolute;
+    bottom: 130%;
+}
+
+.tooltip-enter {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.tooltip-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 50ms, transform 50ms;
+}
+
+.tooltip-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tooltip-exit-active {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 50ms, transform 50ms;
+}

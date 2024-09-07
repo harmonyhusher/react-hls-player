@@ -11,7 +11,7 @@ type Props = {
 
 export const Button = ({ icon, children, ...props }: Props & ComponentProps<'button'>) => {
   return (
-    <button {...props} className={cn(cs.button, { [cs.icon]: icon })}>
+    <button {...props} className={cn(cs.button)}>
       {' '}
       {icon && icon} {children && children}
     </button>

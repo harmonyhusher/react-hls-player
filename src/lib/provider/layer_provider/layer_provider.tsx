@@ -10,7 +10,6 @@ export const LayerProvider = () => {
     <div className={cs.layer_provider}>
       <ProgressLayer />
       <ControlLayer />
-      <QualityLayer />
     </div>
   );
 };

@@ -15,4 +15,6 @@ const $qualities = createStore<TQualityWidths | null>(null);
 
 const setQualities = createEvent<TQualityWidths>();
 
+$qualities.on(setQualities, (_, q) => q);
+
 export { $qualities, setQualities, type TQualityWidths };
