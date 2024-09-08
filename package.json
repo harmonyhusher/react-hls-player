@@ -13,6 +13,7 @@
   "dependencies": {
     "@tabler/icons-react": "^3.14.0",
     "@uidotdev/usehooks": "^2.4.1",
+    "autoprefixer": "^10.4.20",
     "classnames": "^2.5.1",
     "effector": "^23.2.2",
     "effector-react": "^23.2.1",
