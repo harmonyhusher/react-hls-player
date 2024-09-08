@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
+
 import { useUnit } from 'effector-react';
+
+import { Container } from '../../../shared/components/container/container';
 import { $qualities } from './model';
 import cs from './quality-layer.module.scss';
-import { useMemo } from 'react';
-import { Container } from '../../../shared/components/container/container';
 
 export const QualityLayer = () => {
   const qualities = useUnit($qualities);
@@ -10,11 +12,11 @@ export const QualityLayer = () => {
   const existingQualities = useMemo(() => qualities && Object.entries(qualities), [qualities]);
 
   return (
-    <Container tabIndex={0} className={cs.qualities_wrapper}>
+    <Container className={cs.qualities_wrapper} tabIndex={0}>
       {existingQualities?.map(
         ([name, level]) =>
           level && (
-            <p tabIndex={0} className={cs.quality} key={name}>
+            <p className={cs.quality} key={name} tabIndex={0}>
               {name}
             </p>
           ),

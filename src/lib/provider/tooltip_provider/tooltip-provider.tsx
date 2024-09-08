@@ -1,10 +1,12 @@
-import { useState, useEffect, ReactNode, useLayoutEffect, useRef, useCallback } from 'react';
+import { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+
 import './tooltip-provider.scss';
+import { useWindowSize } from '@uidotdev/usehooks';
+
+import { Tooltip } from '../../../shared/components/tooltip/tooltip';
 import { EElementsIds } from '../../../shared/constants/e-elements-ids';
 import { useIsMobile } from '../../../shared/constants/use-platform';
-import { Tooltip } from '../../../shared/components/tooltip/tooltip';
-import { useWindowSize } from '@uidotdev/usehooks';
 
 export const TooltipProvider = ({
   children,
@@ -22,7 +24,7 @@ export const TooltipProvider = ({
   const isMobile = useIsMobile();
   const { width } = useWindowSize();
 
-  const boundaryRef = useRef(null);
+  const boundaryRef = useRef<HTMLDivElement | null>(null);
 
   const handleOpenTooltip = useCallback(() => {
     setOn(true);
@@ -33,18 +35,22 @@ export const TooltipProvider = ({
   }, []);
 
   const handlePosition = () => {
-    const element = document.getElementById(EElementsIds.TOOLTIP_CONTAINER);
-
-    if (!element || !boundaryRef.current) {
+    if (!boundaryRef.current) {
       return;
     }
 
-    const rect = element.getBoundingClientRect();
+    const rect = boundaryRef.current.getBoundingClientRect();
 
     if (rect && width && rect.right > width) {
-      element.style.right = '0%';
+      boundaryRef.current.style.right = '0%';
     }
   };
+
+  useLayoutEffect(() => {
+    if (on) {
+      handlePosition();
+    }
+  }, [on]);
 
   if (isMobile) {
     return <>{children}</>;
@@ -52,22 +58,22 @@ export const TooltipProvider = ({
 
   return (
     <div
-      tabIndex={0}
+      id={EElementsIds.TOOLTIP_PROVIDER}
       onMouseLeave={handleCloseTooltip}
       onMouseOver={handleOpenTooltip}
-      id={EElementsIds.TOOLTIP_PROVIDER}
+      tabIndex={0}
     >
       {(boundary || text) && (
         <CSSTransition
-          ref={boundaryRef}
+          classNames="tooltip"
           id={EElementsIds.TOOLTIP_CONTAINER}
           in={on}
-          timeout={500}
-          classNames="tooltip"
-          unmountOnExit
+          mountOnEnter
           onEntering={handlePosition}
+          timeout={100}
+          unmountOnExit
         >
-          <div ref={boundaryRef} className="tooltip_container">
+          <div className="tooltip_container" ref={boundaryRef}>
             {boundary || <Tooltip text={text || ''} />}
           </div>
         </CSSTransition>

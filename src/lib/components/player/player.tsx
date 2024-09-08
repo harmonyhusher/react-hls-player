@@ -2,9 +2,10 @@ import React, { useCallback } from 'react';
 
 import { useUnit } from 'effector-react';
 
-import { $hlsInstance, $player, $videoElement, setVideoElement } from '../../provider/hls_provider/model';
+import { getBuffered } from '../../../shared/helpers/get-buffered';
+import { $isDragging, setBuffered, setProgress } from '../../layers/progress_layer/model';
 import { setCurrentTime, setIsPlayerReady, setIsPlaying } from '../../provider/hls_provider/events';
-import { $isDragging, setProgress } from '../../layers/progress_layer/model';
+import { $hlsInstance, $player, $videoElement, setVideoElement } from '../../provider/hls_provider/model';
 
 interface IPlayerProps {
   source: string;
@@ -15,15 +16,23 @@ const Player = ({ source }: IPlayerProps) => {
 
   const { hlsInstance } = useUnit($hlsInstance);
   const { videoElement } = useUnit($videoElement);
-  const [setPlayerReady] = useUnit([setIsPlayerReady]);
-  useUnit([setVideoElement, setIsPlaying, setProgress]);
+  useUnit([setVideoElement, setIsPlaying, setProgress, setIsPlayerReady, setBuffered]);
 
   const handleIsPlaying = useCallback((playing: boolean) => {
     setIsPlaying(playing);
   }, []);
 
   const handleSetProgress = () => {
-    videoElement && setProgress(videoElement.currentTime);
+    setProgress(videoElement?.currentTime || 0);
+  };
+
+  const handleBuffering = () => {
+    if (!videoElement) {
+      return;
+    }
+
+    const buffered = getBuffered(videoElement);
+    setBuffered(buffered);
   };
 
   React.useEffect(() => {
@@ -45,7 +54,9 @@ const Player = ({ source }: IPlayerProps) => {
         handleIsPlaying(false);
       });
 
-      videoElement?.addEventListener('timeupdate', handleSetProgress);
+      video?.addEventListener('timeupdate', handleSetProgress);
+
+      videoElement?.addEventListener('progress', handleBuffering);
     }
 
     return () => {
@@ -59,7 +70,7 @@ const Player = ({ source }: IPlayerProps) => {
 
   React.useEffect(() => {
     if (videoRef.current && hlsInstance) {
-      setPlayerReady(true);
+      setIsPlayerReady(true);
     }
   }, [hlsInstance]);
 

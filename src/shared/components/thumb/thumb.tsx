@@ -16,8 +16,8 @@ const Thumb = ({ isDragging, ...props }: ComponentProps<'div'> & IThumbProps) =>
   return (
     <span
       aria-label={'Ползунок'}
-      tabIndex={0}
       className={cn(s.thumb, { [s.is_dragging]: isDragging })}
+      tabIndex={0}
       {...props}
       style={{ left: `${(progress / duration) * 100}%` }}
     />

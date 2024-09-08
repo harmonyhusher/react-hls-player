@@ -1,9 +1,8 @@
-/* eslint-disable max-len */
+
 import { Player } from './lib/components/player/player';
 import { LoadingLayer } from './lib/layers/loading_layer/loading_layer';
-import { HlsProvider } from './lib/provider/hls_provider/HlsProvider';
+import { HlsProvider } from './lib/provider/hls_provider/hls_provider';
 import { LayerProvider } from './lib/provider/layer_provider/layer_provider';
-
 import cs from './wrapper.module.scss';
 
 export const PlayerWrapper = () => {

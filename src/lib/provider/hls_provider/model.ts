@@ -1,6 +1,7 @@
 import { createStore } from 'effector';
 import Hls from 'hls.js';
-import { setHlsInstance, destroyHls, setVideoElement, setCurrentTime, setIsPlaying, setIsPlayerReady } from './events';
+
+import { destroyHls, setCurrentTime, setHlsInstance, setIsPlayerReady, setIsPlaying, setVideoElement } from './events';
 
 interface IHlsInstance {
   hlsInstance: Hls | null;

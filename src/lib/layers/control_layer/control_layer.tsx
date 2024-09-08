@@ -1,17 +1,17 @@
-import { Time } from '../../components';
-
-import cs from './control_layer.module.scss';
-import { Button } from '../../../shared/components/button/button';
-import { PlayIcon } from '../../../shared/icons/Play';
-import { useUnit } from 'effector-react';
-import { $player, $videoElement } from '../../provider/hls_provider/model';
-import { StopIcon } from '../../../shared/icons/Stop';
-import { Seek } from '../../../shared/icons/Seek';
-import { $currentTime, $duration, setCurrentTime } from '../progress_layer/model';
 import { IconSettings } from '@tabler/icons-react';
-import { TooltipProvider } from '../../provider/tooltip_provider/tooltip-provider';
-import { QualityLayer } from '../quality_layer/quality-layer';
+import { useUnit } from 'effector-react';
+
+import { Button } from '../../../shared/components/button/button';
 import { Fullscreen } from '../../../shared/icons/Fullscreen';
+import { PlayIcon } from '../../../shared/icons/Play';
+import { Seek } from '../../../shared/icons/Seek';
+import { StopIcon } from '../../../shared/icons/Stop';
+import { Time } from '../../components';
+import { $player, $videoElement } from '../../provider/hls_provider/model';
+import { TooltipProvider } from '../../provider/tooltip_provider/tooltip-provider';
+import { $currentTime, $duration, setCurrentTime } from '../progress_layer/model';
+import { QualityLayer } from '../quality_layer/quality-layer';
+import cs from './control_layer.module.scss';
 
 const ControlLayer = () => {
   const [{ isPlaying }, video, time, setTime, duration] = useUnit([
@@ -37,14 +37,14 @@ const ControlLayer = () => {
   return (
     <div aria-label="Управление видео" className={cs.control_wrapper}>
       <div aria-label="Кнопки управления видео" className={cs.controls}>
-        <TooltipProvider type={'mouseover'} text={'Перемотать на 10 секунд назад'} type={'mouseover'}>
+        <TooltipProvider text={'Перемотать на 10 секунд назад'} type={'mouseover'} type={'mouseover'}>
           <Button aria-label={'Перемотать на 10 секунд назад'} icon={<Seek />} onClick={() => handleSeekTen('prev')} />
         </TooltipProvider>
         <TooltipProvider text={isPlaying ? 'Пауза' : 'Продолжить'} type={'mouseover'}>
           <Button
+            aria-label={isPlaying ? 'Пауза' : 'Продолжить'}
             icon={isPlaying ? <StopIcon /> : <PlayIcon />}
             onClick={handlePlay}
-            aria-label={isPlaying ? 'Пауза' : 'Продолжить'}
           />
         </TooltipProvider>
         <TooltipProvider text={'Перемотать на 10 секунд вперед'} type={'mouseover'}>
@@ -62,7 +62,7 @@ const ControlLayer = () => {
         <TooltipProvider boundary={<QualityLayer />} type={'mouseover'}>
           <Button aria-label={'Перемотать на 10 секунд вперед'} icon={<IconSettings />} />
         </TooltipProvider>
-        <TooltipProvider type={'mouseover'} text={'Во весь экран'}>
+        <TooltipProvider text={'Во весь экран'} type={'mouseover'}>
           <Button aria-label={'Перемотать на 10 секунд вперед'} icon={<Fullscreen />} />
         </TooltipProvider>
       </div>

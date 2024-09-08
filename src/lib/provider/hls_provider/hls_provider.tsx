@@ -3,12 +3,12 @@ import React from 'react';
 import { useUnit } from 'effector-react';
 import Hls from 'hls.js';
 
-import { EHLSEvents } from '../../../shared/ts/enums';
-import { $hlsInstance, $player, destroyHls, setHlsInstance } from './model';
-import { hlsError, setDuration, setIsPlayerReady } from './events';
 import { qualityRanges } from '../../../shared/constants/quality-info';
-import { setQualities as setLevels, TQualityWidths } from '../../layers/quality_layer/model';
 import { getObjectTruthness } from '../../../shared/helpers/get-object-truthness';
+import { EHLSEvents } from '../../../shared/ts/enums';
+import { setQualities as setLevels, TQualityWidths } from '../../layers/quality_layer/model';
+import { hlsError, setDuration, setIsPlayerReady } from './events';
+import { $hlsInstance, $player, destroyHls, setHlsInstance } from './model';
 interface IHLSProviderProps {
   children: React.ReactNode;
 }
@@ -31,9 +31,9 @@ export const HlsProvider = ({ children }: IHLSProviderProps) => {
         setHlsError(data);
       });
 
-      hls.on(Hls.Events.FRAG_BUFFERED, (e, data) => {
-        // console.log(e, data, 'FRAG');
-      });
+      // hls.on(Hls.Events.FRAG_LOADED, (e, data) => {
+      //   const { loaded = 0 } = data.frag.stats;
+      // });
 
       hls.on(Hls.Events.LEVEL_LOADED, (_, data) => {
         setVideoDuration(data.details.totalduration);
@@ -53,10 +53,8 @@ export const HlsProvider = ({ children }: IHLSProviderProps) => {
           }
         }
 
-        console.log(qualities);
-
         if (getObjectTruthness(qualities)) {
-          setLevels(qualities);
+          setQualities(qualities);
         }
       });
     }

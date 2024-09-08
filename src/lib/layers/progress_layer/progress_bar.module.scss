@@ -13,12 +13,22 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #ffffff;
+    background-color: #9c9c9c;
     border-radius: 10px;
 }
 
 .thumb_progress {
     height: 100%;
+    position: absolute;
+    left: 0;
     background-color: #86b2d8;
+    border-radius: 10px;
+}
+
+.thumb_buffered {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background-color: #dddbdb;
     border-radius: 10px;
 }
