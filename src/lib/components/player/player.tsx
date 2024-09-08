@@ -66,7 +66,7 @@ const Player = ({ source }: IPlayerProps) => {
         setVideoElement(null);
       }
     };
-  }, [source, hlsInstance, setVideoElement, videoElement]);
+  }, [source, hlsInstance, setVideoElement, videoRef]);
 
   React.useEffect(() => {
     if (videoRef.current && hlsInstance) {

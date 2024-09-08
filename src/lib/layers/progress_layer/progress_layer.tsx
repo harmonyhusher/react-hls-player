@@ -31,7 +31,7 @@ export const ProgressLayer = () => {
       setCurrentTime(timeTo);
     }
   };
-
+  console.log(buffered);
   const handlePointerMove = (event: React.PointerEvent | PointerEvent) => {
     if (!event.buttons || !progressBarRef.current) {
       return;
@@ -76,7 +76,7 @@ export const ProgressLayer = () => {
         <div
           className={s.thumb_buffered}
           style={{
-            width: `${(buffered[2] / duration) * 100}%`,
+            width: `${(buffered[0].end / duration) * 100}%`,
           }}
         />
         <div
