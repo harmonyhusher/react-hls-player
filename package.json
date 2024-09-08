@@ -22,7 +22,8 @@
     "patronum": "^2.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "vite-plugin-image-optimizer": "^1.1.8"
   },
   "devDependencies": {
     "@types/hls.js": "^1.0.0",
