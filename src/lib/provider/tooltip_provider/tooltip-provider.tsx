@@ -12,7 +12,6 @@ export const TooltipProvider = ({
   children,
   boundary,
   text,
-  type = 'mouseover',
 }: {
   children: ReactNode;
   boundary?: ReactNode;

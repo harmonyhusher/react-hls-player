@@ -3,9 +3,9 @@ import React, { useCallback } from 'react';
 import { useUnit } from 'effector-react';
 
 import { getBuffered } from '../../../shared/helpers/get-buffered';
-import { $isDragging, setBuffered, setProgress } from '../../layers/progress_layer/model';
-import { setCurrentTime, setIsPlayerReady, setIsPlaying } from '../../provider/hls_provider/events';
-import { $hlsInstance, $player, $videoElement, setVideoElement } from '../../provider/hls_provider/model';
+import { setBuffered, setProgress } from '../../layers/progress_layer/model';
+import { setIsPlayerReady, setIsPlaying } from '../../provider/hls_provider/events';
+import { $hlsInstance, $videoElement, setVideoElement } from '../../provider/hls_provider/model';
 
 interface IPlayerProps {
   source: string;

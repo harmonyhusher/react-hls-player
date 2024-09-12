@@ -1,19 +1,10 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 
 import { useUnit } from 'effector-react';
 
 import { Thumb } from '../../../shared/components/thumb/thumb';
 import { getTime } from '../../../shared/helpers/get-move-timestamp';
-import {
-  $bufferState,
-  $currentTime,
-  $duration,
-  $isDragging,
-  $progress,
-  setCurrentTime,
-  setIsDragging,
-  setProgress,
-} from './model';
+import { $bufferState, $duration, $isDragging, $progress, setCurrentTime, setIsDragging, setProgress } from './model';
 import s from './progress_bar.module.scss';
 
 export const ProgressLayer = () => {
@@ -76,7 +67,7 @@ export const ProgressLayer = () => {
         <div
           className={s.thumb_buffered}
           style={{
-            width: `${(buffered[0].end / duration) * 100}%`,
+            width: `${(buffered[0][1]?.end / duration) * 100}%`,
           }}
         />
         <div

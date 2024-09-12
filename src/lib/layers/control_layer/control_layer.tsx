@@ -14,7 +14,7 @@ import { QualityLayer } from '../quality_layer/quality-layer';
 import cs from './control_layer.module.scss';
 
 const ControlLayer = () => {
-  const [{ isPlaying }, video, time, setTime, duration] = useUnit([
+  const [{ isPlaying }, video, time, setTime] = useUnit([
     $player,
     $videoElement,
     $currentTime,
@@ -37,7 +37,7 @@ const ControlLayer = () => {
   return (
     <div aria-label="Управление видео" className={cs.control_wrapper}>
       <div aria-label="Кнопки управления видео" className={cs.controls}>
-        <TooltipProvider text={'Перемотать на 10 секунд назад'} type={'mouseover'} type={'mouseover'}>
+        <TooltipProvider text={'Перемотать на 10 секунд назад'} type={'mouseover'}>
           <Button aria-label={'Перемотать на 10 секунд назад'} icon={<Seek />} onClick={() => handleSeekTen('prev')} />
         </TooltipProvider>
         <TooltipProvider text={isPlaying ? 'Пауза' : 'Продолжить'} type={'mouseover'}>

@@ -7,8 +7,8 @@ import { qualityRanges } from '../../../shared/constants/quality-info';
 import { getObjectTruthness } from '../../../shared/helpers/get-object-truthness';
 import { EHLSEvents } from '../../../shared/ts/enums';
 import { setQualities as setLevels, TQualityWidths } from '../../layers/quality_layer/model';
-import { hlsError, setDuration, setIsPlayerReady } from './events';
-import { $hlsInstance, $player, destroyHls, setHlsInstance } from './model';
+import { hlsError, setDuration } from './events';
+import { $hlsInstance, destroyHls, setHlsInstance } from './model';
 interface IHLSProviderProps {
   children: React.ReactNode;
 }

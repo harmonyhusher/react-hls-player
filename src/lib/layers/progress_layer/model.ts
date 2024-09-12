@@ -1,10 +1,8 @@
-import { createEvent, createStore, sample } from 'effector';
+import { createEvent, createStore } from 'effector';
 
-import { getBuffered } from '../../../shared/helpers/get-buffered';
 import { setCurrentTime, setDuration } from '../../provider/hls_provider/events';
-import { $videoElement } from '../../provider/hls_provider/model';
 
-export type TBuffered = [[{ start: number; end: number }], number, number];
+export type TBuffered = [{ start: number; end: number }[], number, number];
 
 const $duration = createStore<number>(0);
 const $currentTime = createStore<number>(0);

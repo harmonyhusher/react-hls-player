@@ -1,9 +1,9 @@
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 
 import cn from 'classnames';
 import { useUnit } from 'effector-react';
 
-import { $currentTime, $duration, $progress } from '../../../lib/layers/progress_layer/model';
+import { $duration, $progress } from '../../../lib/layers/progress_layer/model';
 import s from './thumb.module.scss';
 
 interface IThumbProps {

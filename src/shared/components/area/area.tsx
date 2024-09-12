@@ -1,6 +1,6 @@
-import cs from './area.module.scss';
-
 import cn from 'classnames';
+
+import cs from './area.module.scss';
 
 interface IAreasProps {
   width: string;
@@ -8,7 +8,7 @@ interface IAreasProps {
   type?: 'primary' | 'buffered' | 'progress';
 }
 
-export const Area = ({ width, className }: IAreasProps) => {
+export const Area = ({ width }: IAreasProps) => {
   return (
     <div
       className={cn(cs.thumb_progress)}
